@@ -1,0 +1,44 @@
+
+
+This R script is used to process gene expression data, perform differential gene expression analysis (DEA), and generate a volcano plot for visualization. The specific purpose of this analysis is to identify genes that are differentially expressed in different brain regions of control and alcohol use disorder subjects.
+
+The script follows these steps:
+
+1. **Library loading**: Loads necessary R libraries for the data manipulation, statistical analysis, and data visualization.
+
+2. **Setting up working directory**: Defines the working directory where the data files are located.
+
+3. **Data import and preprocessing**: Imports and preprocesses the Gene Transfer Format (GTF) and gene expression count matrix files. Also, metadata related to the samples are imported and preprocessed.
+
+4. **Metadata preprocessing**: Further preprocessing of metadata is done to clean and prepare the data for the downstream analysis. 
+
+5. **Variance partitioning**: Performs variance partitioning following the package documentation.
+
+6. **Data preparation for DEA**: Extracts sample IDs from column names, filters the count matrix based on sample IDs present in the metadata, and prepares a DGEList object (an S4 object class defined in edgeR for storing read counts for a set of RNA samples) for the edgeR package.
+
+7. **Differential Expression Analysis**: Performs a DEA using the limma-voom method. This includes filtering out lowly expressed genes, normalizing the library sizes, applying the voom transformation, and fitting a linear model with specified contrasts.
+
+8. **Volcano plot visualization**: Creates a volcano plot of the differentially expressed genes.
+
+## Dependencies
+
+This script relies on several R packages, including:
+
+- `tidyverse`: for data manipulation and visualization.
+- `variancePartition`: for variance partitioning in gene expression data.
+- `limma` and `edgeR`: for differential expression analysis.
+- `rtracklayer`: for reading and manipulating genomic annotations.
+- `EnhancedVolcano`: for creating volcano plots.
+- `magrittr`: for chaining operations with the pipe operator (`%>%`).
+
+Make sure these packages are installed before running the script. You can install them in R with the command `install.packages()`.
+
+## Data Requirements
+
+This script assumes the data is structured in a specific way. You need to have a GTF file with gene and transcript annotations, a count matrix file with gene expression data, and a metadata file containing information about the samples.
+
+## Outputs
+
+The script outputs a volcano plot showing the differentially expressed genes. The x-axis represents the log2 fold change, while the y-axis represents the -log10 adjusted p-value. The genes above the red line are the ones with an adjusted p-value less than 0.05, and the genes outside the blue lines are the ones with an absolute log2 fold change greater than 1. These are typically considered significantly differentially expressed.
+
+**Note**: This script does not automatically save the output files or plots. Uncomment the `write.csv()` and `ggsave()` lines to save the output and plots, respectively.
