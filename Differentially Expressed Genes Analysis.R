@@ -227,5 +227,7 @@ ggplot(data = amyT, aes(x = logFC, y = -log10(adj.P.Val))) +
 # Save the plot as a PNG image
 #ggsave(filename = "VolcanoPlot_DGE.png", dpi = 300)
 
+#  filter  raw counts matrix to only include genes from the topTable output
+filtered_counts_matrix <- counts_matrix_raw[rownames(counts_matrix_raw) %in% rownames(amyT), ]
 
 
