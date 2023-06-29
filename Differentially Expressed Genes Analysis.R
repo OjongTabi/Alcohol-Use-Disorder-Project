@@ -230,4 +230,18 @@ ggplot(data = amyT, aes(x = logFC, y = -log10(adj.P.Val))) +
 #  filter  raw counts matrix to only include genes from the topTable output
 filtered_counts_matrix <- counts_matrix_raw[rownames(counts_matrix_raw) %in% rownames(amyT), ]
 
+######################## Deseq2 Comparison###############################################
+# DESeq2 uses a DESeqDataSet, we need to convert our data into this format
+dds <- DESeqDataSetFromMatrix(countData = counts_matrix_ready, colData = final_meta2_amy, design = ~ Classification)
 
+# Run the DESeq pipeline
+dds <- DESeq(dds)
+
+# Get the results
+res <- results(dds)
+
+# Sort by adjusted p-value
+res <- res[order(res$padj),]
+
+# Filter only significant genes
+sig.genes <- res[(!is.na(res$padj) & res$padj < 0.05),]
